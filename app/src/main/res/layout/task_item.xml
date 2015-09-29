@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/task_item_vertical_margin"
+        android:layout_marginLeft="@dimen/task_item_horizontal_margin"
+        android:layout_marginRight="@dimen/task_item_horizontal_margin"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp">
+        >
+        <TextView
+            android:id="@+id/month_textview"
+            android:layout_below="@+id/day_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OCT"/>
+        <TextView
+            android:id="@+id/day_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23"
+
+            />
+
+        <TextView
+            android:id="@+id/task_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tarea de autogestion"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
