@@ -4,36 +4,29 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.parse.ParseObject;
+
+import java.util.List;
 
 /**
  * Created by Gabriel on 09/26/15.
  */
-public class TaskAdapter extends BaseAdapter {
+public class TaskAdapter extends ArrayAdapter<ParseObject> {
 
     private Context mContext;
-    private String[] mTasks;
-    public TaskAdapter(Context context, String[] tasks){
+    protected List<ParseObject> mTasks;
 
+    public TaskAdapter(Context context, List<ParseObject> tasks){
+
+        super(context, R.layout.task_item, tasks);
         mContext = context;
         mTasks = tasks;
     }
 
-    @Override
-    public int getCount() {
-        return mTasks.length;
-    }
 
-    @Override
-    public Object getItem(int position) {
-        return mTasks[position];
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -54,7 +47,9 @@ public class TaskAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        holder.taskLabel.setText(mTasks[position]);
+        ParseObject tasks = mTasks.get(position);
+
+        holder.taskLabel.setText(tasks.getString(ParseConstants.KEY_TASK_TITLE));
         holder.monthLabel.setText("SEPT");
         holder.dayLabel.setText("26");
 
@@ -67,5 +62,10 @@ public class TaskAdapter extends BaseAdapter {
         TextView monthLabel;
         TextView dayLabel;
 
+    }
+    public void refill(List<ParseObject> tasks){
+        mTasks.clear();
+        mTasks.addAll(tasks);
+        notifyDataSetChanged();
     }
 }

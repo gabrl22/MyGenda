@@ -8,21 +8,31 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    String[] mTasks = {"Tarea de Autogestion Empresarial", "Tarea de Etica"};
+    public final static String EXTRA_TITLE ="com.example.android.mygenda.TITLE";
+
+
     ListView mListView;
+    protected List<ParseObject> mTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mListView = (ListView)findViewById(R.id.listView);
+        mListView = (ListView) findViewById(R.id.listView);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
@@ -38,9 +48,53 @@ public class MainActivity extends AppCompatActivity {
             Log.i("JA", currentUser.toString());
         }
 
-        TaskAdapter adapter = new TaskAdapter(this, mTasks);
-        mListView.setAdapter(adapter);
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ParseObject task = mTasks.get(position);
+                String title = task.getString(ParseConstants.KEY_TASK_TITLE);
+                String description = task.getString(ParseConstants.KEY_TASK_DESCRIPTION);
+
+                Intent intent = new Intent(MainActivity.this, ViewTask.class);
+                intent.putExtra("Title", title);
+                intent.putExtra("Description", description);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        retrieveTasks();
+    }
+
+    private void retrieveTasks() {
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.CLASS_TITLE);
+        query.addDescendingOrder(ParseConstants.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> tasks, ParseException e) {
+
+                if (e == null) {
+                    mTasks = tasks;
+                    if (mListView.getAdapter() == null) {
+                        //Adapter lo que se quiere de los mensajes a la lista
+                        TaskAdapter adapter = new TaskAdapter(MainActivity.this,
+                                mTasks);
+                        mListView.setAdapter(adapter);
+                    } else {
+                        //refill the the list
+                        ((TaskAdapter) mListView.getAdapter()).refill(mTasks);
+                    }
+                }
+
+            }
+        });
     }
 
     @Override
@@ -59,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
 
-        switch(id){
+        switch (id) {
             case R.id.action_settings:
                 return true;
             case R.id.logout:
@@ -68,15 +122,13 @@ public class MainActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-
         }
-
         return super.onOptionsItemSelected(item);
     }
-    public void addTask(View view){
+
+    public void addTask(View view) {
 
         Intent intent = new Intent(this, NewTask.class);
         startActivity(intent);
-
     }
 }

@@ -35,7 +35,15 @@
         <activity
             android:name=".SignupActivity"
             android:label="@string/title_activity_signup"
-            android:parentActivityName=".LoginActivity">
+            android:parentActivityName=".LoginActivity" >
+        </activity>
+        <activity
+            android:name=".ViewTask"
+            android:label="@string/title_activity_view_task"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.mygenda.MainActivity" />
         </activity>
     </application>
 
