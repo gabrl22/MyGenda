@@ -11,4 +11,5 @@ public class ParseConstants {
     public static final String KEY_TASK_DESCRIPTION = "description";
     public static final String KEY_IMPORTANCE = "importance";
     public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_USER_ID = "user_id";
 }
