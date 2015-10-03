@@ -4,7 +4,7 @@
                 android:layout_height="match_parent"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
 
-                android:background="#E0F2F1"
+
 
                 tools:context="com.example.android.mygenda.NewTask">
 

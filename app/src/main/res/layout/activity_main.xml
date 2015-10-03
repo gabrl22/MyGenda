@@ -48,5 +48,13 @@
         android:clipToPadding="false"
         android:paddingBottom="8dp"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_below="@+id/appbarlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:layout_centerHorizontal="true"/>
+
 
 </RelativeLayout>

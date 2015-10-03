@@ -30,16 +30,16 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="Log In" >
         </activity>
         <activity
             android:name=".SignupActivity"
-            android:label="@string/title_activity_signup"
+            android:label="Sign Up"
             android:parentActivityName=".LoginActivity" >
         </activity>
         <activity
             android:name=".ViewTask"
-            android:label="@string/title_activity_view_task"
+            android:label="Task"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

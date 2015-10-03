@@ -1,5 +1,7 @@
 package com.example.android.mygenda;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -21,10 +25,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final static String EXTRA_TITLE ="com.example.android.mygenda.TITLE";
+    public final static String EXTRA_TITLE = "com.example.android.mygenda.TITLE";
 
 
     ListView mListView;
+    ProgressBar mProgressBar;
     protected List<ParseObject> mTasks;
 
     @Override
@@ -33,12 +38,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mListView = (ListView) findViewById(R.id.listView);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar.setVisibility(View.INVISIBLE);
 
+
+        //Setea el toolbar de la app
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
 
+        //Consigue el usuario que esta activo en el momento
         ParseUser currentUser = ParseUser.getCurrentUser();
 
+        //Si no hay ningun usuario registrado, iniciara el login activity
         if (currentUser == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//Nueva tarea
@@ -49,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        //Activa el click listener a cada item de la lista
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,6 +72,42 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("Title", title);
                 intent.putExtra("Description", description);
                 startActivity(intent);
+            }
+        });
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                final ParseObject task = mTasks.get(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("Delete the task?");
+
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        mProgressBar.setVisibility(View.VISIBLE);
+                        task.deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    //Done
+                                    mProgressBar.setVisibility(View.INVISIBLE);
+                                    retrieveTasks();
+                                }
+                            }
+                        });
+
+
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+
+                return true;
             }
         });
 

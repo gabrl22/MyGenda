@@ -21,12 +21,14 @@
             android:layout_below="@+id/day_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OCT"/>
+            android:text="OCT"
+            android:textSize="18dp"/>
         <TextView
             android:id="@+id/day_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="23"
+            android:textSize="18dp"
 
             />
 
@@ -37,6 +39,7 @@
             android:text="Tarea de autogestion"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:textSize="20dp"
             />
         <ImageView
             android:id="@+id/task_importance"
