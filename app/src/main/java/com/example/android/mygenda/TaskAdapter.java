@@ -50,8 +50,10 @@ public class TaskAdapter extends ArrayAdapter<ParseObject> {
         ParseObject tasks = mTasks.get(position);
 
         holder.taskLabel.setText(tasks.getString(ParseConstants.KEY_TASK_TITLE));
-        holder.monthLabel.setText("SEPT");
-        holder.dayLabel.setText("26");
+       holder.monthLabel.setText(tasks.getString(ParseConstants.KEY_TASK_MONTH));
+        //holder.monthLabel.setText("SEPT");
+       holder.dayLabel.setText(tasks.getInt(ParseConstants.KEY_TASK_DAY) + "");
+        //holder.dayLabel.setText("13");
 
 
         return convertView;

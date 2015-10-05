@@ -12,4 +12,8 @@ public class ParseConstants {
     public static final String KEY_IMPORTANCE = "importance";
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_OBJECT_ID = "objetcId";
+    public static final String KEY_MODE = "mode";
+    public static final String KEY_TASK_MONTH = "month";
+    public static final String KEY_TASK_DAY = "day";
 }

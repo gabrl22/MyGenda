@@ -67,10 +67,14 @@ public class MainActivity extends AppCompatActivity {
                 ParseObject task = mTasks.get(position);
                 String title = task.getString(ParseConstants.KEY_TASK_TITLE);
                 String description = task.getString(ParseConstants.KEY_TASK_DESCRIPTION);
+                int day = task.getInt(ParseConstants.KEY_TASK_DAY);
+                String month = task.getString(ParseConstants.KEY_TASK_MONTH);
 
                 Intent intent = new Intent(MainActivity.this, ViewTask.class);
                 intent.putExtra("Title", title);
                 intent.putExtra("Description", description);
+                //intent.putExtra("Day", day);
+                //intent.putExtra("Month", month);
                 startActivity(intent);
             }
         });
